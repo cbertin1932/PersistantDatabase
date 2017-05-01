@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+    <body>
+        <div>
+            <!--The input and output form-->
+            <h2>Enter Info</h2>
+            <div>
+                <p>Names and aliases. Every name has to be unique name. Can only retrieve, update, and delete by name, not alias.</p>
+                <a>Name: </a><input type="text" id="name"/><br />
+                <a>Alias:</a><input type="text" id="alias" /><br />
+                <button type="button" id="cbtn">Create</button>
+                <button type="button" id="rbtn">Retrieve</button>
+                <button type="button" id="ubtn">Update</button>
+                <button type="button" id="dbtn">Delete</button>
+                <!--Where the result message is displayed.-->
+                <h1>Results<br /></h1>
+                <div id="result"></div>
+            </div>
+            <script type="text/javascript">
+                //the CRUD. Makes sure there is adequate input
+                //.getScript doesn't have a way to POST so I had to GET.
+
+                //create
+                $("#cbtn").click(function () {
+                    if ($('#name').val().length > 0 && $('#alias').val().length > 0)
+                    {
+                        $.getScript("/Home/Create?name=" + $('#name').val() + "&alias=" + $('#alias').val());
+                    }
+                    else
+                        $("#result").text("missing input");
+                });
+                //retrieve
+                $("#rbtn").click(function () {
+                    if ($('#name').val().length > 1) {
+                        $.getScript("/Home/Retrieve?name=" + $('#name').val());
+                        if ($("#alias").val() == 0)
+                            $("result").val = "No such name.";
+                    }
+                    else
+                        $("#result").val("missing input");
+
+                });
+                //update
+                $("#ubtn").click(function () {
+                    if ($('#name').val().length > 1 && $('#alias').val().length > 1) {
+                        $.getScript("/Home/Update?name=" + $('#name').val() + "&alias=" + $('#alias').val());
+                    }
+                    else
+                        $("#result").val("missing input");
+                });
+                //delete
+                $("#dbtn").click(function () {
+                    if ($('#name').val().length > 1) {
+                        $.getScript("/Home/Delete?name=" + $('#name').val());
+                    }
+                    else
+                        $("#result").val("missing input");
+                });
+            </script>
+
+        </div>
+    </body>
+</html>
